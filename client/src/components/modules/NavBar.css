@@ -1,0 +1,33 @@
+.NavBar-container {
+  padding: var(--s) var(--m);
+  background-color: var(--primary);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.NavBar-links {
+  display: flex;
+  gap: var(--l);
+  align-items: center;
+}
+
+.NavBar-title {
+  color: var(--white);
+  font-size: var(--xl);
+  text-decoration: none;
+}
+
+.NavBar-link {
+  color: var(--white);
+  font-size: var(--m);
+  text-decoration: none;
+}
+
+.NavBar-login {
+  justify-self: end;
+}
+
+.NavBar-logout {
+}

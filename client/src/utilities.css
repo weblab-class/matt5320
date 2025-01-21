@@ -15,10 +15,10 @@
 */
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --primary: #396dff;
+  --primary: #009e15;
   --primary--dim: #6987db;
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
@@ -29,12 +29,13 @@
   --s: 8px;
   --m: 16px;
   --l: 24px;
+  --xl: 32px;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: "Atma", sans-serif;
   font-weight: 300;
 }
 
