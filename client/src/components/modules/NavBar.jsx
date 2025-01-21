@@ -12,7 +12,9 @@ const NavBar = (props) => {
         <Link className="NavBar-title u-inlineBlock" to="/">
           Virtual Garden
         </Link>
-        <Link className="NavBar-link u-inlineBlock" to="/grove"></Link>
+        <Link className="NavBar-link u-inlineBlock" to="/garden">
+          Garden
+        </Link>
       </div>
       {userId ? (
         <button
