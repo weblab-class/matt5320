@@ -38,7 +38,7 @@ const socketManager = require("./server-socket");
 // TODO change connection URL after setting up your team database
 const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
-const databaseName = "FILL_ME_IN";
+const databaseName = "VirtualGarden";
 
 // mongoose 7 warning
 mongoose.set("strictQuery", false);
@@ -60,11 +60,12 @@ app.use(validator.checkRoutes);
 // allow us to process POST requests
 app.use(express.json());
 
+const sessionSecret = process.env.SESSION_SECRET;
+
 // set up a session, which will persist login data across requests
 app.use(
   session({
-    // TODO: add a SESSION_SECRET string in your .env file, and replace the secret with process.env.SESSION_SECRET
-    secret: "session-secret",
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
   })
@@ -85,7 +86,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(reactPath, "index.html"), (err) => {
     if (err) {
       console.log("Error sending client/dist/index.html:", err.status || 500);
-      res.status(err.status || 500).send("Error sending client/dist/index.html - have you run `npm run build`?");
+      res
+        .status(err.status || 500)
+        .send("Error sending client/dist/index.html - have you run `npm run build`?");
     }
   });
 });
