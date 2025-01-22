@@ -29,7 +29,6 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-
   res.send(req.user);
 });
 
@@ -41,20 +40,21 @@ router.post("/initsocket", (req, res) => {
 });
 
 router.post("/garden", (req, res) => {
-  Garden.findOne({ googleid: req.body.googleid }).then((existingGarden) => {
+  Garden.findOne({ userId: req.body.userId }).then((existingGarden) => {
     if (!existingGarden) {
       const garden = new Garden(req.body);
       garden.save();
       console.log("creating new garden", req.body);
       return res.send({ msg: "garden created" });
     }
-    existingGarden.updateOne(req.body);
+    existingGarden.set(req.body);
+    existingGarden.save();
     res.send({ msg: "garden updated" });
   });
 });
 
 router.get("/garden", (req, res) => {
-  Garden.findOne({ googleid: req.query.googleid }).then((existingGarden) => {
+  Garden.findOne({ userId: req.query.userId }).then((existingGarden) => {
     if (!existingGarden) {
       return res.status(400).send({ msg: "bad request" });
     }

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const GardenSchema = new mongoose.Schema({
-  googleid: String,
+  userId: mongoose.ObjectId,
   plants: [String],
   x: [Number],
   y: [Number],

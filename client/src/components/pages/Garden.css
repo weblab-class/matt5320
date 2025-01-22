@@ -1,0 +1,14 @@
+.Garden-Container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#Garden-Canvas {
+  border-style: solid;
+}
+
+.Button-Container {
+  display: flex;
+  justify-content: center;
+}

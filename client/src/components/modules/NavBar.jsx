@@ -12,20 +12,23 @@ const NavBar = (props) => {
         <Link className="NavBar-title u-inlineBlock" to="/">
           Virtual Garden
         </Link>
-        <Link className="NavBar-link u-inlineBlock" to="/garden">
-          Garden
-        </Link>
+        {userId && (
+          <Link className="NavBar-link u-inlineBlock" to="/garden">
+            Garden
+          </Link>
+        )}
       </div>
       {userId ? (
-        <button
-          className="NavBar-logout"
+        <Link
+          className="NavBar-link"
           onClick={() => {
             googleLogout();
             handleLogout();
           }}
+          to="/"
         >
           Logout
-        </button>
+        </Link>
       ) : (
         <GoogleLogin
           onSuccess={handleLogin}

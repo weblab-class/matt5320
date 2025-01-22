@@ -1,38 +1,123 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../App";
 import { get, post } from "../../utilities";
 import * as fabric from "fabric";
+import "./Garden.css";
 
 const Garden = () => {
   const canvasref = useRef(null);
+  const fabricCanvasRef = useRef(null);
+  const [url, setUrl] = useState("");
+
+  fabric.FabricObject.createControls = () => {
+    const controls = fabric.controlsUtils.createObjectDefaultControls();
+    delete controls.mtr;
+    return { controls };
+  };
 
   useEffect(() => {
-    const fabriccanvas = new fabric.Canvas(canvasref.current, {
-      height: 500,
-      width: 500,
+    const fabriccanvas = new fabric.Canvas("Garden-Canvas", {
+      width: 700,
+      height: 600,
+      selection: false,
     });
-    const url =
-      "https://img.freepik.com/free-vector/sticker-design-with-plant-pot-isolated_1308-58441.jpg?t=st=1737496519~exp=1737500119~hmac=e7bd24e32867bc193b22e75a37113675493841b8df50b3c55685e23ae67b9121&w=740";
-    const pic = fabric.FabricImage.fromURL(url).then((img) => {
-      img.set({
-        scaleX: 0.5,
-        scaleY: 0.5,
-        left: 0,
-        top: 0,
-        lockRotation: true,
-      });
-      fabriccanvas.add(img);
-    });
+    fabricCanvasRef.current = fabriccanvas;
+    resetGarden();
 
     return () => {
       fabriccanvas.dispose();
     };
   }, []);
 
-  const { userId } = useContext(UserContext);
+  const resetGarden = () => {
+    fabricCanvasRef.current.clear();
+    get("/api/whoami").then((user) => {
+      if (!user._id) return;
+      const userId = user._id;
+
+      get("/api/garden", { userId }).then((garden) => {
+        if (!garden.plants) return;
+
+        garden.plants.forEach((url, index) => {
+          fabric.FabricImage.fromURL(url).then((img) => {
+            img.set({
+              top: garden.y[index],
+              left: garden.x[index],
+              scaleY: garden.scaleY[index],
+              scaleX: garden.scaleX[index],
+            });
+            img.selectable = false;
+            img.hoverCursor = "default";
+            fabricCanvasRef.current.add(img);
+          });
+        });
+      });
+    });
+  };
+
+  const updateGarden = () => {
+    get("/api/whoami").then((user) => {
+      if (!user._id) return;
+      const userId = user._id;
+
+      const plants = [];
+      const x = [];
+      const y = [];
+      const scaleX = [];
+      const scaleY = [];
+
+      fabricCanvasRef.current.getObjects().forEach((object) => {
+        plants.push(object.getSrc());
+        x.push(object.left);
+        y.push(object.top);
+        scaleX.push(object.scaleX);
+        scaleY.push(object.scaleY);
+      });
+
+      const garden = { userId, plants, x, y, scaleX, scaleY };
+
+      post("/api/garden", garden).then(console.log);
+    });
+  };
+
+  const modifiableOn = () => {
+    fabricCanvasRef.current.forEachObject((object, index, array) => {
+      object.selectable = true;
+      object.hoverCursor = null;
+    });
+  };
+
+  const addPicture = (event) => {
+    event.preventDefault();
+    fabric.FabricImage.fromURL(url).then((img) => {
+      fabricCanvasRef.current.add(img);
+    });
+    setUrl("");
+  };
+
+  // if (!userId) return <div>This page is only available to users</div>;
   return (
     <>
-      <canvas ref={canvasref} style={{ borderStyle: "solid" }}></canvas>
+      <div className="Garden-Container">
+        <canvas id="Garden-Canvas" ref={canvasref}></canvas>
+      </div>
+      <div className="Button-Container">
+        <button onClick={resetGarden}>Cancel</button>
+        <button onClick={modifiableOn}>Edit</button>
+        <div>
+          <input
+            type="text"
+            value={url}
+            onChange={(e) => {
+              setUrl(e.target.value);
+            }}
+          ></input>
+          <button type="submit" value="Submit" onClick={addPicture}>
+            Add Picture
+          </button>
+        </div>
+        <button onClick={updateGarden}>Update</button>
+      </div>
     </>
   );
 };
