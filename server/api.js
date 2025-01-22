@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Garden = require("./models/garden");
 
 // import authentication library
 const auth = require("./auth");
@@ -39,9 +40,27 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
+router.post("/garden", (req, res) => {
+  Garden.findOne({ googleid: req.body.googleid }).then((existingGarden) => {
+    if (!existingGarden) {
+      const garden = new Garden(req.body);
+      garden.save();
+      console.log("creating new garden", req.body);
+      return res.send({ msg: "garden created" });
+    }
+    existingGarden.updateOne(req.body);
+    res.send({ msg: "garden updated" });
+  });
+});
+
+router.get("/garden", (req, res) => {
+  Garden.findOne({ googleid: req.query.googleid }).then((existingGarden) => {
+    if (!existingGarden) {
+      return res.status(400).send({ msg: "bad request" });
+    }
+    res.send(existingGarden);
+  });
+});
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
