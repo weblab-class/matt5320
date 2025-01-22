@@ -5,6 +5,8 @@ const GardenSchema = new mongoose.Schema({
   plants: [String],
   x: [Number],
   y: [Number],
+  scaleX: [Number],
+  scaleY: [Number],
 });
 
 // compile model from schema

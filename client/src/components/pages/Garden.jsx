@@ -1,33 +1,38 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../App";
 import { get, post } from "../../utilities";
+import * as fabric from "fabric";
 
 const Garden = () => {
-  const postGarden = () => {
-    const test_garden = {
-      googleid: "test",
-      plants: [
-        "https://img.freepik.com/free-vector/sticker-design-with-plant-pot-isolated_1308-58441.jpg?t=st=1737496519~exp=1737500119~hmac=e7bd24e32867bc193b22e75a37113675493841b8df50b3c55685e23ae67b9121&w=740",
-      ],
-      x: [0],
-      y: [0],
-    };
-    console.log(test_garden);
-    post("/api/garden", test_garden).then((res) => {
-      console.log(res);
-    });
-  };
+  const canvasref = useRef(null);
 
-  const getGarden = () => {
-    get("/api/garden", { googleid: "test" }).then((res) => {
-      console.log(res);
+  useEffect(() => {
+    const fabriccanvas = new fabric.Canvas(canvasref.current, {
+      height: 500,
+      width: 500,
     });
-  };
+    const url =
+      "https://img.freepik.com/free-vector/sticker-design-with-plant-pot-isolated_1308-58441.jpg?t=st=1737496519~exp=1737500119~hmac=e7bd24e32867bc193b22e75a37113675493841b8df50b3c55685e23ae67b9121&w=740";
+    const pic = fabric.FabricImage.fromURL(url).then((img) => {
+      img.set({
+        scaleX: 0.5,
+        scaleY: 0.5,
+        left: 0,
+        top: 0,
+        lockRotation: true,
+      });
+      fabriccanvas.add(img);
+    });
+
+    return () => {
+      fabriccanvas.dispose();
+    };
+  }, []);
 
   const { userId } = useContext(UserContext);
   return (
     <>
-      <canvas></canvas>
+      <canvas ref={canvasref} style={{ borderStyle: "solid" }}></canvas>
     </>
   );
 };
