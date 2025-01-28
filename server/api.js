@@ -32,6 +32,15 @@ router.get("/whoami", (req, res) => {
   res.send(req.user);
 });
 
+router.get("/users", (req, res) => {
+  User.find({})
+    .sort({ _id: "ascending" })
+    .limit(20)
+    .then((users) => {
+      res.send(users);
+    });
+});
+
 router.post("/initsocket", (req, res) => {
   // do nothing if user not logged in
   if (req.user)
@@ -60,6 +69,17 @@ router.get("/garden", (req, res) => {
     }
     res.send(existingGarden);
   });
+});
+
+router.get("/gardens", (req, res) => {
+  User.find({})
+    .sort({ _id: "ascending" })
+    .limit(20)
+    .then((users) => {
+      Garden.find({ userId: { $in: users } }).then((gardens) => {
+        res.send(gardens.filter((garden) => garden.plants.length > 0));
+      });
+    });
 });
 
 // anything else falls to this "not found" case

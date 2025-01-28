@@ -5,7 +5,6 @@ import * as fabric from "fabric";
 import "./Garden.css";
 
 const Garden = () => {
-  const canvasref = useRef(null);
   const fabricCanvasRef = useRef(null);
   const [url, setUrl] = useState("");
 
@@ -31,6 +30,7 @@ const Garden = () => {
 
   const resetGarden = () => {
     fabricCanvasRef.current.clear();
+    fabricCanvasRef.current.set("backgroundColor", "#ffffff");
     get("/api/whoami").then((user) => {
       if (!user._id) return;
       const userId = user._id;
@@ -99,7 +99,7 @@ const Garden = () => {
   return (
     <>
       <div className="Garden-Container">
-        <canvas id="Garden-Canvas" ref={canvasref}></canvas>
+        <canvas id="Garden-Canvas"></canvas>
       </div>
       <div className="Button-Container">
         <button onClick={resetGarden}>Cancel</button>

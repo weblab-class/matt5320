@@ -1,0 +1,32 @@
+.Card-Container {
+  width: fit-content;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+}
+
+.Card-Info {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  top: 100%;
+  position: absolute;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: xxx-large;
+  transition: all 0.2s ease-in;
+  transform: translate(0%, 0%);
+}
+
+.Card-Container:hover .Card-Info {
+  transform: translate(0%, -99.9%);
+  transition: all 0.2s ease-out;
+}
+
+/* .Card-Info:hover {
+  top: 0%;
+} */
