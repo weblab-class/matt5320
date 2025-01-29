@@ -1,6 +1,5 @@
 import { StaticCanvas, FabricImage } from "fabric";
 import { useEffect } from "react";
-import { get } from "../../utilities";
 import "./StaticGarden.css";
 
 const StaticGarden = (props) => {
