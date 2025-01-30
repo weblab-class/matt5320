@@ -1,12 +1,15 @@
 import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import { get, post } from "../../utilities";
 import * as fabric from "fabric";
 import "./Garden.css";
+import GardenButtons from "../modules/GardenButtons";
 
 const Garden = () => {
   const fabricCanvasRef = useRef(null);
   const [url, setUrl] = useState("");
+  const navigate = useNavigate();
 
   fabric.FabricObject.createControls = () => {
     const controls = fabric.controlsUtils.createObjectDefaultControls();
@@ -32,7 +35,10 @@ const Garden = () => {
     fabricCanvasRef.current.clear();
     fabricCanvasRef.current.set("backgroundColor", "#ffffff");
     get("/api/whoami").then((user) => {
-      if (!user._id) return;
+      if (!user._id) {
+        navigate("/");
+        return;
+      }
       const userId = user._id;
 
       get("/api/garden", { userId }).then((garden) => {
@@ -95,30 +101,13 @@ const Garden = () => {
     setUrl("");
   };
 
-  // if (!userId) return <div>This page is only available to users</div>;
   return (
-    <>
-      <div className="Garden-Container">
+    <div className="Garden-Container">
+      <div className="Canvas-Container">
         <canvas id="Garden-Canvas"></canvas>
       </div>
-      <div className="Button-Container">
-        <button onClick={resetGarden}>Cancel</button>
-        <button onClick={modifiableOn}>Edit</button>
-        <div>
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => {
-              setUrl(e.target.value);
-            }}
-          ></input>
-          <button type="submit" value="Submit" onClick={addPicture}>
-            Add Picture
-          </button>
-        </div>
-        <button onClick={updateGarden}>Update</button>
-      </div>
-    </>
+      <GardenButtons></GardenButtons>
+    </div>
   );
 };
 

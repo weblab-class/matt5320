@@ -19,7 +19,7 @@
 
 :root {
   --primary: #009e15;
-  --primary--dim: #6987db;
+  --primary--dim: rgb(229, 255, 198);
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
@@ -37,7 +37,7 @@ body {
   padding: 0;
   font-family: "Atma", sans-serif;
   font-weight: 300;
-  background-color: rgb(229, 255, 198);
+  background-color: var(--primary--dim);
 }
 
 form {

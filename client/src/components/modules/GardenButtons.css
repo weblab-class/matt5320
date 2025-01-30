@@ -1,0 +1,36 @@
+.Button-Container {
+  max-height: 608px;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Picture-Container {
+  display: flex;
+  width: 400px;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: scroll;
+  gap: 20px;
+}
+
+button {
+  border-radius: 15px;
+  border-color: var(--primary);
+  border-style: outset;
+  border-width: 4px;
+  background-color: white;
+  font-family: "Atma", sans-serif;
+  padding: 10px 40px;
+  width: fit-content;
+  font-size: large;
+}
+
+img {
+  width: 40%;
+  border-radius: 15px;
+  border-color: var(--primary);
+  border-style: outset;
+  border-width: 4px;
+}
