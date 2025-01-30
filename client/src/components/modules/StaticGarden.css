@@ -1,4 +1,7 @@
 .Static-Garden-Canvas {
   display: block;
-  /* border-style: solid; */
+  border-radius: 15px;
+  border-color: var(--primary);
+  border-style: outset;
+  border-width: 4px;
 }

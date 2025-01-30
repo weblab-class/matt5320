@@ -16,8 +16,9 @@ const GardenButtons = ({ cancel, edit, update, addPicture }) => {
     setEditing(false);
     update();
   };
-  const handleAddPicture = () => {
-    addPicture();
+  const handleAddPicture = (event) => {
+    const url = event.target.src;
+    if (url) addPicture(url);
   };
 
   const imgs = [
@@ -35,7 +36,9 @@ const GardenButtons = ({ cancel, edit, update, addPicture }) => {
             <button onClick={handleCancel}>Cancel</button>
             <button onClick={handleUpdate}>Update</button>
           </div>
-          <div className="Picture-Container">{imgList}</div>
+          <div className="Picture-Container" onClick={handleAddPicture}>
+            {imgList}
+          </div>
         </>
       ) : (
         <>

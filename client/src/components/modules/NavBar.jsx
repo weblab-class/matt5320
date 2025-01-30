@@ -14,7 +14,7 @@ const NavBar = (props) => {
         </Link>
         {userId && (
           <Link className="NavBar-link u-inlineBlock" to="/garden">
-            Garden
+            My Garden
           </Link>
         )}
       </div>

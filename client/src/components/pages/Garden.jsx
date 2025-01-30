@@ -8,7 +8,6 @@ import GardenButtons from "../modules/GardenButtons";
 
 const Garden = () => {
   const fabricCanvasRef = useRef(null);
-  const [url, setUrl] = useState("");
   const navigate = useNavigate();
 
   fabric.FabricObject.createControls = () => {
@@ -82,7 +81,7 @@ const Garden = () => {
 
       const garden = { userId, plants, x, y, scaleX, scaleY };
 
-      post("/api/garden", garden).then(console.log);
+      post("/api/garden", garden).then(resetGarden);
     });
   };
 
@@ -93,12 +92,10 @@ const Garden = () => {
     });
   };
 
-  const addPicture = (event) => {
-    event.preventDefault();
+  const addPicture = (url) => {
     fabric.FabricImage.fromURL(url).then((img) => {
       fabricCanvasRef.current.add(img);
     });
-    setUrl("");
   };
 
   return (
@@ -106,7 +103,12 @@ const Garden = () => {
       <div className="Canvas-Container">
         <canvas id="Garden-Canvas"></canvas>
       </div>
-      <GardenButtons></GardenButtons>
+      <GardenButtons
+        cancel={resetGarden}
+        edit={modifiableOn}
+        update={updateGarden}
+        addPicture={addPicture}
+      ></GardenButtons>
     </div>
   );
 };

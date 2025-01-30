@@ -7,8 +7,9 @@ const StaticGarden = (props) => {
   const originalHeight = 600;
   const scaleFactor = props.scaleFactor ?? 1;
   const garden = props.garden;
+  const userId = props.garden?.userId ?? "blank";
   useEffect(() => {
-    const canvas = new StaticCanvas(props.garden.userId, {
+    const canvas = new StaticCanvas(userId, {
       width: scaleFactor * originalWidth,
       height: scaleFactor * originalHeight,
       backgroundColor: "#ffffff",
@@ -31,7 +32,7 @@ const StaticGarden = (props) => {
     };
   });
 
-  return <canvas className="Static-Garden-Canvas" id={props.garden.userId}></canvas>;
+  return <canvas className="Static-Garden-Canvas" id={userId}></canvas>;
 };
 
 export default StaticGarden;

@@ -26,7 +26,12 @@ const Home = () => {
     gardenList = <div></div>;
   }
 
-  return <div className="Home-Container">{gardenList}</div>;
+  return (
+    <div className="Home-Container">
+      <div style={{ width: "fit-content" }}>Explore Other People's Gardens!</div>
+      <div className="Feed-Container">{gardenList}</div>
+    </div>
+  );
 };
 
 export default Home;
