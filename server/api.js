@@ -59,9 +59,9 @@ router.post("/garden", (req, res) => {
     existingGarden.set(req.body);
     User.findOne({ _id: req.body.userId }).then((user) => {
       existingGarden.set({ userName: user.name });
+      existingGarden.save();
+      res.send({ msg: "garden updated" });
     });
-    existingGarden.save();
-    res.send({ msg: "garden updated" });
   });
 });
 
