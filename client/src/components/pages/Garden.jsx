@@ -94,6 +94,12 @@ const Garden = () => {
 
   const addPicture = (url) => {
     fabric.FabricImage.fromURL(url).then((img) => {
+      img.set({
+        left: 350,
+        top: 300,
+        scaleX: 0.5,
+        scaleY: 0.5,
+      });
       fabricCanvasRef.current.add(img);
     });
   };
